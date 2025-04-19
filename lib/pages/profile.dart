@@ -77,7 +77,6 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
     bool isConfirmPasswordVisible = false;
     bool isSubmitting = false;
 
-    // Capture the parent's context.
     final parentContext = context;
 
     showCupertinoModalPopup(
@@ -86,7 +85,6 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
       builder: (_) => StatefulBuilder(
         builder: (dialogContext, setState) {
           return Container(
-            // Set the height of the modal here
             height: MediaQuery.of(context).size.height * 0.85,
             padding: const EdgeInsets.only(top: 20),
             decoration: BoxDecoration(
@@ -106,7 +104,7 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
                         children: [
                           Icon(
                             CupertinoIcons.lock_shield,
-                            color: const Color(0xFF009688),
+                            color: teal500,
                             size: 24,
                           ),
                           const SizedBox(width: 10),
@@ -139,14 +137,12 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
                   ),
                 ),
                 const SizedBox(height: 20),
-                // Wrap the form content in an Expanded widget so it takes the available space.
                 Expanded(
                   child: SingleChildScrollView(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // Email field
                         _buildFormLabel('Email'),
                         Container(
                           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
@@ -162,7 +158,7 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
                             children: [
                               Icon(
                                 CupertinoIcons.mail,
-                                color: const Color(0xFF009688),
+                                color: teal500,
                                 size: 20,
                               ),
                               const SizedBox(width: 12),
@@ -177,7 +173,6 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
                           ),
                         ),
                         const SizedBox(height: 16),
-                        // OTP field and Send OTP button
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -188,19 +183,16 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
                               onPressed: isSubmitting
                                   ? null
                                   : () async {
+                                setState(() {
+                                  otpMessage = 'Sending OTP...';
+                                });
                                 try {
-                                  setState(() {
-                                    otpMessage = 'Sending OTP...';
-                                  });
-
                                   final response = await http.post(
                                     Uri.parse('https://airbank-server.onrender.com/api/auth/send-otp'),
                                     headers: {'Content-Type': 'application/json'},
                                     body: jsonEncode({'email': widget.email}),
                                   );
-
                                   final jsonResponse = jsonDecode(response.body);
-
                                   if (response.statusCode == 200) {
                                     setState(() {
                                       otpMessage = 'OTP sent to your email.';
@@ -220,22 +212,22 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
                               child: Container(
                                 padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                                 decoration: BoxDecoration(
-                                  color: const Color(0xFF009688).withOpacity(0.2),
+                                  color: teal500.withOpacity(0.2),
                                   borderRadius: BorderRadius.circular(8),
                                 ),
                                 child: Row(
                                   children: [
                                     Icon(
                                       isOtpSent ? CupertinoIcons.refresh : CupertinoIcons.envelope,
-                                      color: const Color(0xFF009688),
+                                      color: teal500,
                                       size: 14,
                                     ),
                                     const SizedBox(width: 6),
                                     Text(
                                       isOtpSent ? 'Resend OTP' : 'Send OTP',
-                                      style: const TextStyle(
+                                      style: TextStyle(
                                         fontSize: 13,
-                                        color: Color(0xFF009688),
+                                        color: teal500,
                                         fontWeight: FontWeight.w600,
                                       ),
                                     ),
@@ -272,7 +264,7 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
                               padding: const EdgeInsets.only(left: 12),
                               child: Icon(
                                 CupertinoIcons.number,
-                                color: const Color(0xFF009688),
+                                color: teal500,
                                 size: 20,
                               ),
                             ),
@@ -282,7 +274,6 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
                           ),
                         ),
                         const SizedBox(height: 16),
-                        // New password field
                         _buildFormLabel('New Password'),
                         const SizedBox(height: 8),
                         Container(
@@ -311,7 +302,7 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
                               padding: const EdgeInsets.only(left: 12),
                               child: Icon(
                                 CupertinoIcons.lock,
-                                color: const Color(0xFF009688),
+                                color: teal500,
                                 size: 20,
                               ),
                             ),
@@ -336,7 +327,6 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
                           ),
                         ),
                         const SizedBox(height: 16),
-                        // Confirm password field
                         _buildFormLabel('Confirm Password'),
                         const SizedBox(height: 8),
                         Container(
@@ -365,7 +355,7 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
                               padding: const EdgeInsets.only(left: 12),
                               child: Icon(
                                 CupertinoIcons.lock_shield,
-                                color: const Color(0xFF009688),
+                                color: teal500,
                                 size: 20,
                               ),
                             ),
@@ -389,7 +379,6 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
                             ),
                           ),
                         ),
-                        // Status message
                         if (otpMessage.isNotEmpty) ...[
                           const SizedBox(height: 16),
                           Container(
@@ -438,7 +427,6 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
                     ),
                   ),
                 ),
-                // Action buttons
                 Container(
                   padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
@@ -453,7 +441,6 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
                   ),
                   child: Row(
                     children: [
-                      // Cancel button
                       Expanded(
                         flex: 2,
                         child: GestureDetector(
@@ -478,7 +465,6 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
                         ),
                       ),
                       const SizedBox(width: 12),
-                      // Submit button
                       Expanded(
                         flex: 3,
                         child: GestureDetector(
@@ -489,7 +475,6 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
                             final newPassword = newPasswordController.text;
                             final confirmPassword = confirmPasswordController.text;
 
-                            // Validation checks
                             if (otp.isEmpty) {
                               setState(() {
                                 otpMessage = 'Please enter the OTP code.';
@@ -515,12 +500,12 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
                               return;
                             }
 
-                            try {
-                              setState(() {
-                                otpMessage = 'Changing password...';
-                                isSubmitting = true;
-                              });
+                            setState(() {
+                              otpMessage = 'Changing password...';
+                              isSubmitting = true;
+                            });
 
+                            try {
                               final response = await http.post(
                                 Uri.parse('https://airbank-server.onrender.com/api/auth/change-password'),
                                 headers: {'Content-Type': 'application/json'},
@@ -530,19 +515,14 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
                                   'newPassword': newPassword,
                                 }),
                               );
-
                               final jsonResponse = jsonDecode(response.body);
-
                               if (response.statusCode == 200) {
                                 setState(() {
                                   otpMessage = 'Password changed successfully.';
                                 });
-
-                                // Clear stored email and password.
                                 final prefs = await SharedPreferences.getInstance();
                                 await prefs.remove('email');
                                 await prefs.remove('password');
-
                                 Future.delayed(const Duration(seconds: 1), () {
                                   Navigator.pop(dialogContext);
                                   _signOut(parentContext);
@@ -563,11 +543,11 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
                           child: Container(
                             padding: const EdgeInsets.symmetric(vertical: 14),
                             decoration: BoxDecoration(
-                              color: const Color(0xFF009688),
+                              color: teal500,
                               borderRadius: BorderRadius.circular(12),
                               boxShadow: [
                                 BoxShadow(
-                                  color: const Color(0xFF009688).withOpacity(0.3),
+                                  color: teal500.withOpacity(0.3),
                                   blurRadius: 8,
                                   offset: const Offset(0, 4),
                                 ),
@@ -601,6 +581,45 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
     );
   }
 
+  // New: shows modal with member names
+  void _showMembersModal() {
+    showCupertinoModalPopup(
+      context: context,
+      filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+      builder: (BuildContext context) {
+        return CupertinoActionSheet(
+          title: const Text(
+            'Members',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+          message: const Text('Here are the names of the 5 members:'),
+          actions: [
+            _buildMemberAction('Janzen Laurence Decano'),
+            _buildMemberAction('Aero Kenn Dela Pena'),
+            _buildMemberAction('Riane Gamboa'),
+            _buildMemberAction('Maricar Mangulabnan'),
+            _buildMemberAction('Jhoncarlo Mariano'),
+          ],
+          cancelButton: CupertinoActionSheetAction(
+            isDefaultAction: true,
+            child: const Text('Close'),
+            onPressed: () => Navigator.pop(context),
+          ),
+        );
+      },
+    );
+  }
+
+  // Helper to build each member row
+  CupertinoActionSheetAction _buildMemberAction(String name) {
+    return CupertinoActionSheetAction(
+      onPressed: () {}, // no-op
+      child: Text(
+        name,
+        style: const TextStyle(color: CupertinoColors.white),
+      ),
+    );
+  }
 
   void _showComingSoonDialog(String feature) {
     showCupertinoDialog(
@@ -657,9 +676,7 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const CupertinoActivityIndicator(
-                radius: 16,
-              ),
+              const CupertinoActivityIndicator(radius: 16),
               const SizedBox(height: 16),
               Text(
                 'Signing out...',
@@ -690,21 +707,19 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
                     ),
                     child: Row(
                       children: [
-                        // Profile avatar
                         Container(
                           width: 70,
                           height: 70,
                           decoration: BoxDecoration(
                             color: teal500.withOpacity(0.2),
                             shape: BoxShape.circle,
-                            border: Border.all(
-                              color: teal500,
-                              width: 2,
-                            ),
+                            border: Border.all(color: teal500, width: 2),
                           ),
                           child: Center(
                             child: Text(
-                              capitalizedName.isNotEmpty ? capitalizedName[0].toUpperCase() : 'U',
+                              capitalizedName.isNotEmpty
+                                  ? capitalizedName[0].toUpperCase()
+                                  : 'U',
                               style: TextStyle(
                                 fontSize: 28,
                                 fontWeight: FontWeight.bold,
@@ -714,7 +729,6 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
                           ),
                         ),
                         const SizedBox(width: 20),
-                        // User info
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -754,7 +768,6 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
                             ],
                           ),
                         ),
-                        // Edit button
                         GestureDetector(
                           onTap: () => _showComingSoonDialog('profile editing'),
                           child: Container(
@@ -785,10 +798,8 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
                       color: CupertinoColors.white,
                     ),
                   ),
-
                   const SizedBox(height: 16),
 
-                  // Settings options
                   _buildSettingsItem(
                     icon: CupertinoIcons.lock,
                     title: 'Change Password',
@@ -810,6 +821,14 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
                     onTap: () => _showComingSoonDialog('payment methods'),
                   ),
 
+                  // ←–– New Info item
+                  _buildSettingsItem(
+                    icon: CupertinoIcons.info_circle,
+                    title: 'Info',
+                    color: teal500,
+                    onTap: _showMembersModal,
+                  ),
+
                   const SizedBox(height: 24),
 
                   // Preferences section
@@ -821,9 +840,7 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
                       color: CupertinoColors.white,
                     ),
                   ),
-
                   const SizedBox(height: 16),
-
 
                   _buildSettingsItem(
                     icon: CupertinoIcons.money_dollar_circle,
@@ -844,7 +861,6 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
                       color: CupertinoColors.white,
                     ),
                   ),
-
                   const SizedBox(height: 16),
 
                   _buildSettingsItem(
@@ -943,7 +959,6 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
         ),
         child: Row(
           children: [
-            // Icon
             Container(
               width: 36,
               height: 36,
@@ -951,16 +966,9 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
                 color: color.withOpacity(0.2),
                 borderRadius: BorderRadius.circular(10),
               ),
-              child: Icon(
-                icon,
-                color: color,
-                size: 20,
-              ),
+              child: Icon(icon, color: color, size: 20),
             ),
-
             const SizedBox(width: 14),
-
-            // Title and subtitle
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -986,8 +994,6 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
                 ],
               ),
             ),
-
-            // Toggle or arrow
             hasToggle
                 ? CupertinoSwitch(
               value: toggleValue,
