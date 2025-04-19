@@ -1,4 +1,4 @@
-package com.example.airbank_system
+package com.bscs.airbank_system
 
 import io.flutter.embedding.android.FlutterActivity
 
