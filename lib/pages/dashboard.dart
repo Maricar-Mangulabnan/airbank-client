@@ -3,13 +3,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart' show Colors;
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
-
 import 'cashin.dart';
 import 'paybills.dart';
 import 'profile.dart';
 import 'transfer.dart';
 import 'transactions.dart';
 import 'add-bank-account.dart';
+import 'package:flutter/services.dart';
+
 
 class DashboardPage extends StatefulWidget {
   final String email;
@@ -165,7 +166,7 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
 
   String _formatCardNumber(String number) {
     if (number.length < 4) return number;
-    return '••••${number.substring(number.length - 4)}';
+    return number;
   }
 
   Widget _buildEmptyState({required IconData icon, required String title, required String message}) {
@@ -411,12 +412,35 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
                                         Row(
                                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Text(_formatCardNumber(accountNumber),
+                                            GestureDetector(
+                                              onTap: () async {
+                                                // copy the raw accountNumber
+                                                await Clipboard.setData(ClipboardData(text: accountNumber));
+
+                                                // show a brief Cupertino alert
+                                                showCupertinoDialog(
+                                                  context: context,
+                                                  builder: (_) => const CupertinoAlertDialog(
+                                                    content: Text('Card number copied!'),
+                                                  ),
+                                                );
+                                                // auto-dismiss after 1s
+                                                Future.delayed(const Duration(seconds: 1), () {
+                                                  if (Navigator.of(context, rootNavigator: true).canPop()) {
+                                                    Navigator.of(context, rootNavigator: true).pop();
+                                                  }
+                                                });
+                                              },
+                                              child: Text(
+                                                _formatCardNumber(accountNumber),
                                                 style: const TextStyle(
                                                   color: CupertinoColors.white,
                                                   fontSize: 14,
                                                   letterSpacing: 2,
-                                                )),
+                                                ),
+                                              ),
+                                            ),
+
                                             Column(
                                               crossAxisAlignment: CrossAxisAlignment.end,
                                               children: [
