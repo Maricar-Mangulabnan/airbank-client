@@ -13,14 +13,14 @@ workflows:
       - flutter build apk --release
       - flutter build appbundle --release
 
-#      - name: Decode Google Play JSON Key
-#        script: echo $GOOGLE_PLAY_JSON | base64 --decode > /tmp/google_play.json
-#
-#      - name: Upload to Google Play
-#        script: |
-#          gcloud auth activate-service-account --key-file=/tmp/google_play.json
-#          gcloud --quiet auth configure-docker
-#          fastlane supply --track alpha --json-key /tmp/google_play.json --package_name com.bscs.airbank_system --aab build/app/outputs/bundle/release/app-release.aab
+      - name: Decode Google Play JSON Key
+        script: echo $GOOGLE_PLAY_JSON | base64 --decode > /tmp/google_play.json
+
+      - name: Upload to Google Play
+        script: |
+          gcloud auth activate-service-account --key-file=/tmp/google_play.json
+          gcloud --quiet auth configure-docker
+          fastlane supply --track alpha --json-key /tmp/google_play.json --package_name com.bscs.airbank_system --aab build/app/outputs/bundle/release/app-release.aab
 
     artifacts:
       - build/app/outputs/flutter-apk/app-release.apk
