@@ -592,7 +592,7 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
             'Members',
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
-          message: const Text('Here are the names of the 5 members:'),
+          message: const Text('MARJJ'),
           actions: [
             _buildMemberAction('Janzen Laurence Decano'),
             _buildMemberAction('Aero Kenn Dela Pena'),

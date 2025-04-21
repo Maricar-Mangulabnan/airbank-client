@@ -411,31 +411,6 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
         border: Border.all(color: Colors.transparent),
         leading: null,
         middle: null,
-        trailing: GestureDetector(
-          onTap: () {
-            showCupertinoDialog(
-              context: context,
-              builder: (_) => BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-                child: CupertinoAlertDialog(
-                  title: const AppText('Feature Coming Soon'),
-                  content: const AppText('This feature is under development.'),
-                  actions: [
-                    CupertinoDialogAction(
-                      child: const AppText('OK'),
-                      onPressed: () => Navigator.pop(context),
-                    ),
-                  ],
-                ),
-              ),
-            );
-          },
-          child: Icon(
-            CupertinoIcons.settings,
-            color: tealColor,
-            size: 24,
-          ),
-        ),
       ),
       child: SafeArea(
         child: Stack(
